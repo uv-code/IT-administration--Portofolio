@@ -15,6 +15,8 @@ import {
   Clock,
   Circle,
   ChevronDown,
+  FileText,
+  ExternalLink,
 } from 'lucide-react';
 
 const NAV_LINKS = [
@@ -41,51 +43,54 @@ const CERTIFICATIONS: {
   short: string;
   status: CertStatus;
   note: string;
+  pdfUrl?: string;
 }[] = [
-  { name: 'AZ-900 – Azure-Architektur & Core Services', short: 'AZ-900', status: 'passed', note: 'Bestanden' },
-  { name: 'AB-900 –Microsoft 365 Plattform, Copilot & Agent Grundlagen ', short: 'AB-900', status: 'passed', note: 'Bestanden' },
-  {name: 'AZ-104 – Azure Administrator', short: 'AZ-104', status: 'in-progress', note: 'In Vorbereitung'  },
-  {name: 'AZ-800 – Azure Administrator', short: 'AZ-800', status: 'planned', note: 'In Vorbereitung'  },
-  {name: 'AZ-801 – Azure Administrator', short: 'AZ-801', status: 'planned', note: 'In Vorbereitung'  },
-  { name: 'ITIL Foundation', short: 'ITIL', status: 'planned', note: 'Abschluss Anfang Oktober' },
-  
+  { name: 'AZ-900 – Azure Fundamentals', short: 'AZ-900', status: 'passed', note: 'Bestanden', pdfUrl: '/certs/az-900.pdf' },
+  { name: 'AB-900 – Azure Basics', short: 'AB-900', status: 'passed', note: 'Bestanden', pdfUrl: '/certs/ab-900.pdf' },
+  { name: 'ITIL Foundation', short: 'ITIL', status: 'in-progress', note: 'Abschluss Anfang Oktober' },
+  { name: 'AZ-104 – Azure Administrator', short: 'AZ-104', status: 'planned', note: 'In Vorbereitung' },
 ];
+
+type ProjectStatus = 'live' | 'in-progress' | 'planned';
 
 const PROJECTS: {
   title: string;
   description: string;
   tags: string[];
   icon: typeof Cloud;
-  status: CertStatus;
+  status: ProjectStatus;
 }[] = [
   {
     title: 'Azure Static Web App Portfolio',
     description:
       'Dieses Portfolio, deployed als Azure Static Web App mit React, Vite und Tailwind CSS. Vollständig responsiv und GitHub-verbunden.',
-    tags: ['Azure Static Web Apps', 'React', 'Vite', 'Tailwind'], status: 'planned',    icon: Cloud,
+    tags: ['Azure Static Web Apps', 'React', 'Vite', 'Tailwind'],
+    icon: Cloud,
+    status: 'live',
   },
   {
     title: 'Azure Identity & Access Management Demo',
     description:
       'Demonstration von Entra ID (Azure AD) Benutzerverwaltung, RBAC-Rollen, bedingtem Zugriff und Sicherheitsrichtlinien.',
     tags: ['Entra ID', 'RBAC', 'Conditional Access', 'Security'],
-    status: 'planned',
     icon: ShieldCheck,
+    status: 'in-progress',
   },
   {
     title: 'Windows Server & AD Lab',
     description:
       'Lokales Lab mit Windows Server, Active Directory, DNS, DHCP und Group Policy zur Administration in einer isolierten Umgebung.',
-    tags: ['Windows Server', 'Active Directory', 'GPO', 'DNS'], status: 'planned',
+    tags: ['Windows Server', 'Active Directory', 'GPO', 'DNS'],
     icon: Server,
+    status: 'in-progress',
   },
   {
     title: 'Azure VM Deployment',
     description:
       'Automatisierte Bereitstellung einer Azure-VM inkl. Netzwerksicherheitsgruppe, Speicherkonto und Diagnoseeinstellungen via Portal & CLI.',
     tags: ['Azure VM', 'NSG', 'CLI', 'IaC'],
-    status: 'planned',
     icon: Cloud,
+    status: 'planned',
   },
 ];
 
@@ -387,32 +392,56 @@ function Certifications() {
         <div className="grid gap-4 sm:grid-cols-2">
           {CERTIFICATIONS.map((cert) => {
             const cfg = statusConfig[cert.status];
-            const Icon = cfg.icon;
+            const StatusIcon = cfg.icon;
+            const hasPdf = Boolean(cert.pdfUrl);
+            const Wrapper = hasPdf ? 'a' : 'div';
             return (
-              <div
+              <Wrapper
                 key={cert.name}
-                className="group relative overflow-hidden rounded-2xl border border-ink-800 bg-ink-900/50 p-5 transition-all hover:border-ink-700 hover:bg-ink-900"
+                {...(hasPdf
+                  ? {
+                      href: cert.pdfUrl,
+                      target: '_blank',
+                      rel: 'noreferrer',
+                    }
+                  : {})}
+                className={`group relative overflow-hidden rounded-2xl border border-ink-800 bg-ink-900/50 p-5 transition-all ${
+                  hasPdf
+                    ? 'hover:border-accent-500/40 hover:bg-ink-900 cursor-pointer'
+                    : 'hover:border-ink-700 hover:bg-ink-900'
+                }`}
               >
                 <div className="flex items-start justify-between gap-4">
                   <div className="flex items-start gap-3.5">
-                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-ink-800 to-ink-700 text-accent-400">
+                    <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gradient-to-br from-ink-800 to-ink-700 text-accent-400 transition-colors group-hover:from-accent-500/20 group-hover:to-accent-600/20 group-hover:text-accent-300">
                       <Award size={20} />
                     </div>
                     <div>
-                      <h3 className="text-sm font-semibold text-white leading-snug">
+                      <h3 className="text-sm font-semibold text-white leading-snug flex items-center gap-1.5">
                         {cert.name}
+                        {hasPdf && (
+                          <FileText size={13} className="text-accent-400 shrink-0" />
+                        )}
                       </h3>
-                      <p className="mt-1 text-xs text-ink-400">{cert.note}</p>
+                      <p className="mt-1 text-xs text-ink-400">
+                        {hasPdf ? 'Zertifikat als PDF ansehen' : cert.note}
+                      </p>
                     </div>
                   </div>
                   <span
                     className={`inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${cfg.classes}`}
                   >
-                    <Icon size={12} />
+                    <StatusIcon size={12} />
                     {cfg.label}
                   </span>
                 </div>
-              </div>
+                {hasPdf && (
+                  <div className="mt-3 flex items-center gap-1.5 text-xs font-medium text-accent-400 opacity-0 transition-opacity group-hover:opacity-100">
+                    <ExternalLink size={12} />
+                    PDF öffnen
+                  </div>
+                )}
+              </Wrapper>
             );
           })}
         </div>
@@ -420,6 +449,24 @@ function Certifications() {
     </section>
   );
 }
+
+const projectStatusConfig: Record<
+  ProjectStatus,
+  { label: string; classes: string }
+> = {
+  'live': {
+    label: 'Live',
+    classes: 'text-success-400 bg-success-500/10 border-success-500/20',
+  },
+  'in-progress': {
+    label: 'In Vorbereitung',
+    classes: 'text-warning-400 bg-warning-500/10 border-warning-500/20',
+  },
+  'planned': {
+    label: 'Geplant',
+    classes: 'text-ink-400 bg-ink-800/50 border-ink-700',
+  },
+};
 
 function Projects() {
   return (
@@ -433,6 +480,7 @@ function Projects() {
         <div className="grid gap-5 sm:grid-cols-2">
           {PROJECTS.map((project) => {
             const Icon = project.icon;
+            const status = projectStatusConfig[project.status];
             return (
               <article
                 key={project.title}
@@ -440,8 +488,18 @@ function Projects() {
               >
                 <div className="pointer-events-none absolute -right-20 -top-20 h-40 w-40 rounded-full bg-accent-500/5 blur-2xl transition-opacity group-hover:bg-accent-500/10" />
                 <div className="relative">
-                  <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-xl bg-ink-800 text-accent-400 transition-colors group-hover:bg-accent-500/10 group-hover:text-accent-300">
-                    <Icon size={22} />
+                  <div className="mb-4 flex items-center justify-between">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-ink-800 text-accent-400 transition-colors group-hover:bg-accent-500/10 group-hover:text-accent-300">
+                      <Icon size={22} />
+                    </div>
+                    <span
+                      className={`inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-xs font-medium ${status.classes}`}
+                    >
+                      {project.status === 'live' && <CheckCircle2 size={12} />}
+                      {project.status === 'in-progress' && <Clock size={12} />}
+                      {project.status === 'planned' && <Circle size={12} />}
+                      {status.label}
+                    </span>
                   </div>
                   <h3 className="text-lg font-semibold text-white">
                     {project.title}
@@ -554,7 +612,7 @@ function Footer() {
               <Linkedin size={18} />
             </a>
             <a
-              href="mailto:dritanshehaj111@gmail.com"
+              href="mailto:dritan.shehaj@example.com"
               className="text-ink-500 transition-colors hover:text-ink-200"
               aria-label="E-Mail"
             >
