@@ -554,7 +554,7 @@ function Footer() {
               <Linkedin size={18} />
             </a>
             <a
-              href="mailto:dritan.shehaj@example.com"
+              href="mailto:dritanshehaj111@gmail.com"
               className="text-ink-500 transition-colors hover:text-ink-200"
               aria-label="E-Mail"
             >
