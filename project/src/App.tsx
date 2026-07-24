@@ -45,8 +45,8 @@ const CERTIFICATIONS: {
   note: string;
   pdfUrl?: string;
 }[] = [
-  { name: 'AZ-900 – Azure Fundamentals', short: 'AZ-900', status: 'passed', note: 'Bestanden', pdfUrl: '/certs/az-900.pdf' },
-  { name: 'AB-900 – Azure Basics', short: 'AB-900', status: 'passed', note: 'Bestanden', pdfUrl: '/certs/ab-900.pdf' },
+  { name: 'AZ-900 – Azure Fundamentals', short: 'AZ-900', status: 'passed', note: 'Bestanden', pdfUrl: '/certs/az-ab-900.html' },
+  { name: 'AB-900 – Azure Basics', short: 'AB-900', status: 'passed', note: 'Bestanden', pdfUrl: '/certs/az-ab-900.html' },
   { name: 'ITIL Foundation', short: 'ITIL', status: 'in-progress', note: 'Abschluss Anfang Oktober' },
   { name: 'AZ-104 – Azure Administrator', short: 'AZ-104', status: 'planned', note: 'In Vorbereitung' },
 ];
@@ -547,14 +547,14 @@ function Contact() {
 
             <div className="mt-8 flex flex-wrap gap-3">
               <a
-                href="mailto:dritan.shehaj@example.com"
+                href="mailto:dritanshehaj111@gmail.com"
                 className="inline-flex items-center gap-2 rounded-xl bg-accent-500 px-5 py-3 text-sm font-semibold text-white shadow-lg shadow-accent-500/20 transition-all hover:bg-accent-400"
               >
                 <Mail size={16} />
                 E-Mail senden
               </a>
               <a
-                href="https://github.com/dritanshehaj"
+                href="https://github.com/uv-code/IT-administration--Portofolio.git"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 rounded-xl border border-ink-700 bg-ink-800/50 px-5 py-3 text-sm font-semibold text-ink-100 transition-all hover:border-ink-600 hover:bg-ink-800"
@@ -594,7 +594,7 @@ function Footer() {
           </div>
           <div className="flex items-center gap-4">
             <a
-              href="https://github.com/dritanshehaj"
+              href="https://github.com/uv-code/IT-administration--Portofolio.git"
               target="_blank"
               rel="noreferrer"
               className="text-ink-500 transition-colors hover:text-ink-200"
@@ -612,7 +612,7 @@ function Footer() {
               <Linkedin size={18} />
             </a>
             <a
-              href="mailto:dritan.shehaj@example.com"
+              href="mailto:dritanshehaj111@gmail.com"
               className="text-ink-500 transition-colors hover:text-ink-200"
               aria-label="E-Mail"
             >
