@@ -42,10 +42,13 @@ const CERTIFICATIONS: {
   status: CertStatus;
   note: string;
 }[] = [
-  { name: 'AZ-900 – Azure Fundamentals', short: 'AZ-900', status: 'passed', note: 'Bestanden' },
-  { name: 'AB-900 – Azure Basics', short: 'AB-900', status: 'passed', note: 'Bestanden' },
-  { name: 'ITIL Foundation', short: 'ITIL', status: 'in-progress', note: 'Abschluss Anfang Oktober' },
-  { name: 'AZ-104 – Azure Administrator', short: 'AZ-104', status: 'planned', note: 'In Vorbereitung' },
+  { name: 'AZ-900 – Azure-Architektur & Core Services', short: 'AZ-900', status: 'passed', note: 'Bestanden' },
+  { name: 'AB-900 –Microsoft 365 Plattform, Copilot & Agent Grundlagen ', short: 'AB-900', status: 'passed', note: 'Bestanden' },
+  {name: 'AZ-104 – Azure Administrator', short: 'AZ-104', status: 'in-progress', note: 'In Vorbereitung'  },
+  {name: 'AZ-800 – Azure Administrator', short: 'AZ-800', status: 'planned', note: 'In Vorbereitung'  },
+  {name: 'AZ-801 – Azure Administrator', short: 'AZ-801', status: 'planned', note: 'In Vorbereitung'  },
+  { name: 'ITIL Foundation', short: 'ITIL', status: 'planned', note: 'Abschluss Anfang Oktober' },
+  
 ];
 
 const PROJECTS: {
@@ -53,26 +56,27 @@ const PROJECTS: {
   description: string;
   tags: string[];
   icon: typeof Cloud;
+  status: CertStatus;
 }[] = [
   {
     title: 'Azure Static Web App Portfolio',
     description:
       'Dieses Portfolio, deployed als Azure Static Web App mit React, Vite und Tailwind CSS. Vollständig responsiv und GitHub-verbunden.',
-    tags: ['Azure Static Web Apps', 'React', 'Vite', 'Tailwind'],
-    icon: Cloud,
+    tags: ['Azure Static Web Apps', 'React', 'Vite', 'Tailwind'], status: 'planned',    icon: Cloud,
   },
   {
     title: 'Azure Identity & Access Management Demo',
     description:
       'Demonstration von Entra ID (Azure AD) Benutzerverwaltung, RBAC-Rollen, bedingtem Zugriff und Sicherheitsrichtlinien.',
     tags: ['Entra ID', 'RBAC', 'Conditional Access', 'Security'],
+    status: 'planned',
     icon: ShieldCheck,
   },
   {
     title: 'Windows Server & AD Lab',
     description:
       'Lokales Lab mit Windows Server, Active Directory, DNS, DHCP und Group Policy zur Administration in einer isolierten Umgebung.',
-    tags: ['Windows Server', 'Active Directory', 'GPO', 'DNS'],
+    tags: ['Windows Server', 'Active Directory', 'GPO', 'DNS'], status: 'planned',
     icon: Server,
   },
   {
@@ -80,6 +84,7 @@ const PROJECTS: {
     description:
       'Automatisierte Bereitstellung einer Azure-VM inkl. Netzwerksicherheitsgruppe, Speicherkonto und Diagnoseeinstellungen via Portal & CLI.',
     tags: ['Azure VM', 'NSG', 'CLI', 'IaC'],
+    status: 'planned',
     icon: Cloud,
   },
 ];
