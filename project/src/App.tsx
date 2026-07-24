@@ -45,10 +45,16 @@ const CERTIFICATIONS: {
   note: string;
   pdfUrl?: string;
 }[] = [
-  { name: 'AZ-900 – Azure Fundamentals', short: 'AZ-900', status: 'passed', note: 'Bestanden', pdfUrl: '/certs/az-ab-900.html' },
-  { name: 'AB-900 – Azure Basics', short: 'AB-900', status: 'passed', note: 'Bestanden', pdfUrl: '/certs/az-ab-900.html' },
-  { name: 'ITIL Foundation', short: 'ITIL', status: 'in-progress', note: 'Abschluss Anfang Oktober' },
-  { name: 'AZ-104 – Azure Administrator', short: 'AZ-104', status: 'planned', note: 'In Vorbereitung' },
+
+  { name: 'Google-It-Support', short: 'Google-It-Support', status: 'passed', note: 'Bestanden', pdfUrl: '/certs/Google-It-Support.pdf' },
+  { name: 'AZ-900 – Azure-Architektur & Core Services', short: 'AZ-900', status: 'passed', note: 'Bestanden', pdfUrl: '/certs/az-900.pdf' },
+  { name: 'AB-900 – Microsoft 365 Certified - Copilot and Agent', short: 'AB-900', status: 'passed', note: 'Bestanden', pdfUrl: '/certs/ab-900.pdf' },
+  { name: 'AZ-104 - Cloud Experte: Microsoft Azure Administration', short: 'AZ-104', status: 'in-progress', note: 'In Vorbereitung'  },
+  { name: 'AZ-800 – Administering Windows Server Hybrid Core Infrastructure', short: 'AZ-800', status: 'in-progress', note: 'In Vorbereitung' },
+  { name: 'AZ-801 – Configuring Windows Server Hybrid Advanced Services', short: 'AZ-801', status: 'in-progress', note: 'In Vorbereitung' },
+  { name: 'ITIL Foundation', short: 'ITIL', status: 'in-progress', note: 'Abschluss Anfang Oktober'} 
+
+
 ];
 
 type ProjectStatus = 'live' | 'in-progress' | 'planned';
@@ -360,6 +366,9 @@ function Skills() {
 }
 
 function Certifications() {
+  const [selectedPdf, setSelectedPdf] = useState<{ name: string; url: string } | null>(null);
+  const [isPdfOpen, setIsPdfOpen] = useState(false);
+
   const statusConfig: Record<
     CertStatus,
     { icon: typeof CheckCircle2; label: string; classes: string }
@@ -381,6 +390,36 @@ function Certifications() {
     },
   };
 
+  useEffect(() => {
+    if (!selectedPdf) return;
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsPdfOpen(false);
+      }
+    };
+
+    document.body.style.overflow = 'hidden';
+    window.addEventListener('keydown', handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = '';
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [selectedPdf]);
+
+  useEffect(() => {
+    if (!selectedPdf) return;
+
+    const timer = window.setTimeout(() => setIsPdfOpen(true), 20);
+    return () => window.clearTimeout(timer);
+  }, [selectedPdf]);
+
+  const closePdf = () => {
+    setIsPdfOpen(false);
+    window.setTimeout(() => setSelectedPdf(null), 220);
+  };
+
   return (
     <section id="certifications" className="py-24 border-t border-ink-900">
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
@@ -394,18 +433,17 @@ function Certifications() {
             const cfg = statusConfig[cert.status];
             const StatusIcon = cfg.icon;
             const hasPdf = Boolean(cert.pdfUrl);
-            const Wrapper = hasPdf ? 'a' : 'div';
+            const Wrapper = hasPdf ? 'button' : 'div';
             return (
               <Wrapper
                 key={cert.name}
-                {...(hasPdf
-                  ? {
-                      href: cert.pdfUrl,
-                      target: '_blank',
-                      rel: 'noreferrer',
-                    }
-                  : {})}
-                className={`group relative overflow-hidden rounded-2xl border border-ink-800 bg-ink-900/50 p-5 transition-all ${
+                type={hasPdf ? 'button' : undefined}
+                onClick={() => {
+                  if (hasPdf && cert.pdfUrl) {
+                    setSelectedPdf({ name: cert.name, url: cert.pdfUrl });
+                  }
+                }}
+                className={`group relative overflow-hidden rounded-2xl border border-ink-800 bg-ink-900/50 p-5 text-left transition-all ${
                   hasPdf
                     ? 'hover:border-accent-500/40 hover:bg-ink-900 cursor-pointer'
                     : 'hover:border-ink-700 hover:bg-ink-900'
@@ -424,7 +462,7 @@ function Certifications() {
                         )}
                       </h3>
                       <p className="mt-1 text-xs text-ink-400">
-                        {hasPdf ? 'Zertifikat als PDF ansehen' : cert.note}
+                        {hasPdf ? 'PDF-Vorschau öffnen' : cert.note}
                       </p>
                     </div>
                   </div>
@@ -438,12 +476,63 @@ function Certifications() {
                 {hasPdf && (
                   <div className="mt-3 flex items-center gap-1.5 text-xs font-medium text-accent-400 opacity-0 transition-opacity group-hover:opacity-100">
                     <ExternalLink size={12} />
-                    PDF öffnen
+                    Vorschau öffnen
                   </div>
                 )}
               </Wrapper>
             );
           })}
+        </div>
+      </div>
+
+      <div
+        className={`fixed inset-0 z-[60] flex items-center justify-center bg-ink-950/80 px-3 py-3 backdrop-blur-sm transition-all duration-300 ${
+          isPdfOpen && selectedPdf ? 'pointer-events-auto opacity-100' : 'pointer-events-none opacity-0'
+        }`}
+        onClick={closePdf}
+      >
+        <div
+          className={`w-full max-w-5xl overflow-hidden rounded-3xl border border-ink-800 bg-ink-950/95 shadow-2xl shadow-black/40 transition-all duration-300 ${
+            isPdfOpen && selectedPdf ? 'translate-y-0 scale-100' : 'translate-y-4 scale-[0.98]'
+          }`}
+          onClick={(event) => event.stopPropagation()}
+        >
+          <div className="flex flex-col gap-3 border-b border-ink-800 px-4 py-4 sm:flex-row sm:items-center sm:justify-between sm:px-6">
+            <div>
+              <h3 className="text-base font-semibold text-white">{selectedPdf?.name}</h3>
+              <p className="mt-1 text-sm text-ink-400">
+                Die Vorschau öffnet direkt im Overlay. Falls dein Handy sie nicht anzeigt, nutze den Button unten.
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => window.open(selectedPdf?.url ?? '', '_blank', 'noopener,noreferrer')}
+                className="rounded-full border border-accent-500/30 bg-accent-500/10 px-3 py-2 text-sm font-medium text-accent-300 transition-colors hover:bg-accent-500/20"
+              >
+                Im Browser öffnen
+              </button>
+              <button
+                type="button"
+                onClick={closePdf}
+                className="rounded-full border border-ink-700 bg-ink-900 px-3 py-2 text-sm font-medium text-ink-200 transition-colors hover:bg-ink-800"
+              >
+                Schließen
+              </button>
+            </div>
+          </div>
+          <div className="p-3 sm:p-4">
+            <div className="overflow-hidden rounded-2xl border border-ink-800 bg-white">
+              <iframe
+                src={selectedPdf?.url}
+                title={selectedPdf?.name}
+                className="min-h-[60vh] w-full bg-white sm:min-h-[75vh]"
+              />
+            </div>
+            <p className="mt-3 text-xs leading-relaxed text-ink-400">
+              Auf manchen Mobilgeräten wird das PDF direkt im Browser angezeigt. Wenn die Vorschau nicht sichtbar ist, öffnet der Button oben die Datei im neuen Tab.
+            </p>
+          </div>
         </div>
       </div>
     </section>
