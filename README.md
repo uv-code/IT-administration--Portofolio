@@ -56,7 +56,6 @@ Browser öffnen → http://localhost:3000
 
 ---
 
-
 ## 🌐 Frontend Resources
 React + TypeScript
 Responsive Design
@@ -64,7 +63,6 @@ Azure-inspiriertes UI
 Zertifikats-Download (PDF)
 
 ---
-
 
 ## ⚡ Backend Resources
 
@@ -75,14 +73,12 @@ Resource Groups
 
 ---
 
-
 ## 🧪 Testing Resources
 Jest für React Components
 TypeScript Type-Checks
 GitHub Actions Testintegration
 
 ---
-
 
 ## 🔄 CI/CD Resources
 Workflow-Datei:
@@ -107,19 +103,12 @@ Bitte vorher die Contributing Guidelines lesen.
 
 ---
 
-
 ## 📜 License
 Dieses Projekt ist unter der MIT License lizenziert.
 
----
 
-### **💡 Erklärung**
-- Die Links im Inhaltsverzeichnis (`#-demo`, `#-setup`, usw.) verweisen auf die Überschriften weiter unten.  
-- GitHub erstellt automatisch Anker basierend auf den Überschriftentexten.  
-- Emojis oder Sonderzeichen werden in Ankern mit einem Bindestrich (`-`) ersetzt.  
-  Beispiel:  
-  `## 🔍 Demo` → `#-demo`  
-  `## ⚙️ Setup` → `#-setup`
+
+
 
 
 
