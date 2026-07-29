@@ -652,7 +652,7 @@ function Contact() {
                 GitHub
               </a>
               <a
-                href="https://linkedin.com/in/dritanshehaj"
+                href="https://www.linkedin.com/in/dritan-shehaj-703aa9194"
                 target="_blank"
                 rel="noreferrer"
                 className="inline-flex items-center gap-2 rounded-xl border border-ink-700 bg-ink-800/50 px-5 py-3 text-sm font-semibold text-ink-100 transition-all hover:border-ink-600 hover:bg-ink-800"
@@ -692,7 +692,7 @@ function Footer() {
               <Github size={18} />
             </a>
             <a
-              href="https://linkedin.com/in/dritanshehaj"
+              href="https://www.linkedin.com/in/dritan-shehaj-703aa9194"
               target="_blank"
               rel="noreferrer"
               className="text-ink-500 transition-colors hover:text-ink-200"
