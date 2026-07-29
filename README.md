@@ -1,18 +1,44 @@
-# Dritan Shehaj – IT Portfolio
 
-Dieses Repository enthält meine Projekte, Zertifizierungen und Beispiele für Azure- und Server-Deployments.
+## 🚀 Projektübersicht
+Dieses Portfolio dient als zentrale Plattform, um meine IT-Projekte, Zertifizierungen und praktischen Erfahrungen darzustellen.  
+Es zeigt meine Kenntnisse in moderner Webentwicklung sowie meine Fähigkeiten im Umgang mit Azure-Cloud-Diensten.
 
-## Zertifizierungen
-- AZ-900 – Bestanden
-- AB-900 – Bestanden
-- AZ-104 - in Vorbereitung
-- AZ-800 – in Vorbereitung
-- AZ-801 – in Vorbereitung
-- ITIL Foundation – Abschluss Anfang Oktober
+---
 
+## 🛠️ Technologien & Tools
 
-## Projekte
-- Azure Static Web App Portfolio
-- Azure Identity & Access Management Demo
-- Windows Server & AD Lab
-- Azure VM Deployment
+### **Frontend**
+- React  
+- TypeScript  
+- HTML5  
+- CSS3  
+- JavaScript (ES6+)  
+- Responsive Design
+
+### **Entwicklung**
+- Visual Studio Code  
+- Node.js & npm  
+- Git & GitHub
+
+### **Cloud & Deployment**
+- Azure Static Web Apps  
+- GitHub Actions (CI/CD Pipeline)  
+- Azure Portal  
+- Azure Resource Groups
+
+---
+
+## ⚙️ CI/CD Workflow
+Das Projekt nutzt eine automatisierte Deployment-Pipeline:
+
+1. Änderungen werden in den `main`-Branch gepusht  
+2. GitHub Actions startet automatisch den Build-Prozess  
+3. Die Anwendung wird auf Azure Static Web Apps deployed  
+4. Die Live-Version ist sofort verfügbar
+
+Workflow-Datei:  
+`.github/workflows/azure-static-web-apps.yml`
+
+---
+
+## 📂 Projektstruktur
