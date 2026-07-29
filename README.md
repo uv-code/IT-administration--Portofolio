@@ -46,36 +46,45 @@ certificates/
 .github/workflows/
 README.md
 
+---
 
-⚙️ Setup
+## ⚙️ Setup
 Repository klonen
 Dependencies installieren
 Dev-Server starten
 Browser öffnen → http://localhost:3000
 
+---
 
-🌐 Frontend Resources
+
+## 🌐 Frontend Resources
 React + TypeScript
 Responsive Design
 Azure-inspiriertes UI
 Zertifikats-Download (PDF)
 
+---
 
-⚡ Backend Resources
+
+## ⚡ Backend Resources
 
 Azure Static Web Apps
 GitHub Actions CI/CD
 Azure Portal
 Resource Groups
 
+---
 
-🧪 Testing Resources
+
+## 🧪 Testing Resources
 Jest für React Components
 TypeScript Type-Checks
 GitHub Actions Testintegration
 
+---
 
-🔄 CI/CD Resources
+
+## 🔄 CI/CD Resources
 Workflow-Datei:
 .github/workflows/azure-static-web-apps.yml
 Automatischer Ablauf:
@@ -83,17 +92,23 @@ Push auf main
 Build
 Deploy auf Azure
 
-📌 TO DO
+---
+
+## 📌 TO DO
 Tests in CI/CD integrieren
 Infrastructure-as-Code hinzufügen
 UI weiter optimieren
 
-👥 Contributing
+---
+
+## 👥 Contributing
 Beiträge sind willkommen!
 Bitte vorher die Contributing Guidelines lesen.
 
+---
 
-📜 License
+
+## 📜 License
 Dieses Projekt ist unter der MIT License lizenziert.
 
 ---
@@ -106,9 +121,8 @@ Dieses Projekt ist unter der MIT License lizenziert.
   `## 🔍 Demo` → `#-demo`  
   `## ⚙️ Setup` → `#-setup`
 
----
 
-Wenn du möchtest, kann ich dir dein aktuelles README direkt so umschreiben, dass alle Abschnitte und Links perfekt funktionieren und visuell wie in deinem Screenshot aussehen.  
-Willst du, dass ich das komplette Markdown für dich generiere?
+
+
 
 
