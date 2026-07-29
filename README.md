@@ -46,62 +46,53 @@ certificates/
 .github/workflows/
 README.md
 
+
 ⚙️ Setup
 Repository klonen
-
 Dependencies installieren
-
 Dev-Server starten
-
 Browser öffnen → http://localhost:3000
+
 
 🌐 Frontend Resources
 React + TypeScript
-
 Responsive Design
-
 Azure-inspiriertes UI
-
 Zertifikats-Download (PDF)
 
+
 ⚡ Backend Resources
+
 Azure Static Web Apps
-
 GitHub Actions CI/CD
-
 Azure Portal
-
 Resource Groups
+
 
 🧪 Testing Resources
 Jest für React Components
-
 TypeScript Type-Checks
-
 GitHub Actions Testintegration
+
 
 🔄 CI/CD Resources
 Workflow-Datei:
 .github/workflows/azure-static-web-apps.yml
-
 Automatischer Ablauf:
-
 Push auf main
-
 Build
-
 Deploy auf Azure
 
 📌 TO DO
 Tests in CI/CD integrieren
-
 Infrastructure-as-Code hinzufügen
-
 UI weiter optimieren
 
 👥 Contributing
 Beiträge sind willkommen!
 Bitte vorher die Contributing Guidelines lesen.
+
+
 📜 License
 Dieses Projekt ist unter der MIT License lizenziert.
 
