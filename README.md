@@ -1,105 +1,119 @@
 # 📘 IT-Administration & Cloud Portfolio
 
 Dies ist mein persönliches IT-Portfolio, entwickelt mit **React**, **TypeScript**, **HTML**, **CSS** und **JavaScript** in **VS Code**.  
-Das Projekt wird über **GitHub Actions (CI/CD)** automatisch auf **Azure Static Web Apps** deployed.
+Das Projekt wird über **GitHub Actions** automatisch auf **Azure Static Web Apps** deployed.
 
 ---
 
 ## 📋 Table of Contents
 - [🔍 Demo](#-demo)
-- [📝 Pre-requisites](#-pre-requisites)
-- [🏗️ Structure](#-structure)
+- [📝 Voraussetzungen](#-voraussetzungen)
+- [🏗️ Projektstruktur](#-projektstruktur)
 - [⚙️ Setup](#-setup)
-- [🌐 Frontend Resources](#-frontend-resources)
-- [⚡ Backend Resources](#-backend-resources)
-- [🧪 Testing Resources](#-testing-resources)
-- [🔄 CI/CD Resources](#-cicd-resources)
-- [📌 TO DO](#-to-do)
-- [👥 Contributing](#-contributing)
+- [🌐 Frontend](#-frontend)
+- [⚡ Deployment](#-deployment)
+- [🔄 CI/CD](#-cicd)
+- [📌 To Do](#-to-do)
+- [👥 Mitwirken](#-mitwirken)
 - [📜 License](#-license)
 
 ---
 
 ## 🔍 Demo
-👉 [View it live here](https://proud-river-080ef7d03.7.azurestaticapps.net)
+👉 [Live Demo](https://proud-river-080ef7d03.7.azurestaticapps.net)
 
 ---
 
-## 📝 Pre-requisites
-Für die Entwicklung nutze ich **VS Code** mit:
-- Node.js & npm  
-- React & TypeScript  
-- GitHub Actions  
-- Azure CLI (optional für lokale Tests)
+## 📝 Voraussetzungen
+- Node.js & npm installiert
+- Git installiert
+- GitHub Account
+- Azure Static Web Apps Deployment-Token in GitHub Secrets (siehe CI/CD)
 
 ---
 
-## 🏗️ Structure
+## 🏗️ Projektstruktur
 ```plaintext
-/src
-   components/
-   pages/
-   assets/
-   styles/
-public/
-certificates/
-.github/workflows/
+project/
+  public/
+  src/
+    App.tsx
+    index.css
+    main.tsx
+    vite-env.d.ts
+  package.json
+  tsconfig.app.json
+  tsconfig.json
+  tsconfig.node.json
+  vite.config.ts
+  tailwind.config.js
+.github/
+  workflows/
+    azure-static-web-apps-proud-river-080ef7d03.yml
 README.md
+```
 
 ---
 
 ## ⚙️ Setup
-Repository klonen
-Dependencies installieren
-Dev-Server starten
-Browser öffnen → http://localhost:3000
+1. Repository klonen
+   ```bash
+   git clone <repository-url>
+   cd dritan-portofolio/project
+   ```
+2. Abhängigkeiten installieren
+   ```bash
+   npm install
+   ```
+3. Dev-Server starten
+   ```bash
+   npm run dev
+   ```
+4. Öffne den Browser auf `http://localhost:5173`
 
 ---
 
-## 🌐 Frontend Resources
-React + TypeScript
-Responsive Design
-Azure-inspiriertes UI
-Zertifikats-Download (PDF)
+## 🌐 Frontend
+- React + TypeScript
+- Vite als Build-Tool
+- Tailwind CSS für Styling
+- Responsive Layout
 
 ---
 
-## ⚡ Backend Resources
+## ⚡ Deployment
+Dieses Projekt wird mit Azure Static Web Apps deployed.
 
-Azure Static Web Apps
-GitHub Actions CI/CD
-Azure Portal
-Resource Groups
+Wichtige Konfigurationen:
+- App-Quellverzeichnis: `project`
+- Build-Ausgabe: `dist`
+- Azure Static Web Apps Workflow: `.github/workflows/azure-static-web-apps-proud-river-080ef7d03.yml`
+- GitHub Secret: `AZURE_STATIC_WEB_APPS_API_TOKEN_PROUD_RIVER_080EF7D03`
 
----
-
-## 🧪 Testing Resources
-Jest für React Components
-TypeScript Type-Checks
-GitHub Actions Testintegration
+Hinweis: Das Deployment wird nur für Pushes auf den Branch `main` ausgelöst.
 
 ---
 
-## 🔄 CI/CD Resources
-Workflow-Datei:
-.github/workflows/azure-static-web-apps.yml
-Automatischer Ablauf:
-Push auf main
-Build
-Deploy auf Azure
+## 🔄 CI/CD
+Der Workflow verwendet den Azure Static Web Apps Action `Azure/static-web-apps-deploy@v1`.
+
+Ablauf:
+1. Push auf `main` oder Pull Request gegen `main`
+2. Checkout des Repositories
+3. Build der App im Ordner `project`
+4. Upload des `dist`-Ordners zur Azure Static Web App
 
 ---
 
-## 📌 TO DO
-Tests in CI/CD integrieren
-Infrastructure-as-Code hinzufügen
-UI weiter optimieren
+## 📌 To Do
+- CI/CD-Tests hinzufügen
+- Infrastruktur als Code dokumentieren
+- UI weiter optimieren
 
 ---
 
-## 👥 Contributing
-Beiträge sind willkommen!
-Bitte vorher die Contributing Guidelines lesen.
+## 👥 Mitwirken
+Beiträge sind willkommen. Bitte erst ein Issue öffnen oder eine Pull Request erstellen.
 
 ---
 
