@@ -24,6 +24,7 @@ const NAV_LINKS = [
   { id: 'skills', label: 'Skills' },
   { id: 'certifications', label: 'Zertifizierungen' },
   { id: 'projects', label: 'Projekte' },
+  { id: 'jobagent', label: 'JobAgent' },
   { id: 'contact', label: 'Kontakt' },
 ];
 
@@ -616,6 +617,156 @@ function Projects() {
   );
 }
 
+function JobAgentSection() {
+  type JobItem = {
+    id?: string;
+    title?: string;
+    company_name?: string;
+    source?: string;
+    url?: string;
+  };
+
+  type StatusData = {
+    lastRun?: string;
+    newJobsFound?: number;
+    totalJobs?: number;
+    status?: string;
+  };
+
+  const [jobs, setJobs] = useState<JobItem[]>([]);
+  const [status, setStatus] = useState<StatusData>({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
+
+  const loadJobData = async () => {
+    setLoading(true);
+    setError('');
+
+    try {
+      const [jobsResponse, statusResponse] = await Promise.all([
+        fetch('/jobs.json', { cache: 'no-store' }),
+        fetch('/status.json', { cache: 'no-store' }),
+      ]);
+
+      if (!jobsResponse.ok) {
+        throw new Error('jobs.json konnte nicht geladen werden.');
+      }
+
+      const jobsData = (await jobsResponse.json()) as JobItem[];
+      const statusData = statusResponse.ok ? ((await statusResponse.json()) as StatusData) : {};
+
+      setJobs(Array.isArray(jobsData) ? jobsData : []);
+      setStatus(statusData);
+    } catch (err) {
+      console.error('JobAgent data error:', err);
+      setError('Keine aktuellen Job-Daten verfügbar. Der Agent läuft noch nicht oder die JSON-Datei ist leer.');
+      setJobs([]);
+      setStatus({});
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    void loadJobData();
+  }, []);
+
+  const statusLabel =
+    status.status === 'new_jobs_found'
+      ? 'Neue Jobs gefunden'
+      : status.status === 'no_new_jobs'
+        ? 'Keine neuen Jobs'
+        : 'Wartet auf Daten';
+
+  return (
+    <section id="jobagent" className="py-24 border-t border-ink-900">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6">
+        <SectionHeading
+          eyebrow="JobAgent"
+          title="Aktuelle Job-Suche"
+          description="Automatisch gefilterte IT- und Administrator-Stellen, direkt aus den Ergebnissen des Agents."
+        />
+
+        <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-ink-800 bg-ink-900/60 p-5 sm:flex-row sm:items-center sm:justify-between">
+          <div>
+            <p className="text-xs uppercase tracking-[0.2em] text-accent-400">Status</p>
+            <p className="mt-2 text-lg font-semibold text-white">{statusLabel}</p>
+            <p className="mt-1 text-sm text-ink-400">
+              {status.lastRun ? `Letzte Ausführung: ${new Date(status.lastRun).toLocaleString('de-DE')}` : 'Noch keine Ausführung gemeldet.'}
+            </p>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => void loadJobData()}
+            className="rounded-xl bg-accent-500 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-accent-400"
+          >
+            Ergebnisse aktualisieren
+          </button>
+        </div>
+
+        <div className="mb-6 grid gap-4 sm:grid-cols-3">
+          <div className="rounded-2xl border border-ink-800 bg-ink-900/50 p-5">
+            <p className="text-xs uppercase tracking-[0.2em] text-ink-400">Neue Jobs</p>
+            <p className="mt-3 text-3xl font-bold text-white">{status.newJobsFound ?? 0}</p>
+          </div>
+          <div className="rounded-2xl border border-ink-800 bg-ink-900/50 p-5">
+            <p className="text-xs uppercase tracking-[0.2em] text-ink-400">Gesamt</p>
+            <p className="mt-3 text-3xl font-bold text-white">{status.totalJobs ?? jobs.length}</p>
+          </div>
+          <div className="rounded-2xl border border-ink-800 bg-ink-900/50 p-5">
+            <p className="text-xs uppercase tracking-[0.2em] text-ink-400">Quelle</p>
+            <p className="mt-3 text-lg font-bold text-white">Adzuna API</p>
+          </div>
+        </div>
+
+        {loading ? (
+          <div className="rounded-2xl border border-ink-800 bg-ink-900/50 p-8 text-center text-ink-300">
+            Job-Daten werden geladen...
+          </div>
+        ) : error ? (
+          <div className="rounded-2xl border border-red-500/30 bg-red-500/5 p-6 text-red-200">
+            {error}
+          </div>
+        ) : jobs.length === 0 ? (
+          <div className="rounded-2xl border border-ink-800 bg-ink-900/50 p-8 text-center text-ink-300">
+            Es wurden noch keine passenden Stellen gefunden.
+          </div>
+        ) : (
+          <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
+            {jobs.map((job, index) => (
+              <article
+                key={`${job.id ?? job.url ?? index}`}
+                className="rounded-2xl border border-ink-800 bg-gradient-to-b from-ink-900/60 to-ink-950 p-5 transition-all hover:border-accent-500/40"
+              >
+                <div className="mb-3 flex items-center justify-between gap-3">
+                  <span className="rounded-full border border-accent-500/30 bg-accent-500/10 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-accent-300">
+                    {job.source ?? 'Adzuna'}
+                  </span>
+                  <span className="text-xs text-ink-500">#{index + 1}</span>
+                </div>
+
+                <h3 className="text-lg font-semibold text-white leading-snug">{job.title ?? 'Unbekannte Stelle'}</h3>
+                <p className="mt-3 text-sm text-ink-300">{job.company_name ?? 'Unternehmen unbekannt'}</p>
+
+                <a
+                  href={job.url ?? '#'}
+                  target="_blank"
+                  rel="noreferrer"
+                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-accent-300 transition-colors hover:text-accent-200"
+                >
+                  Job ansehen
+                  <ArrowUpRight size={14} />
+                </a>
+              </article>
+            ))}
+          </div>
+        )}
+      </div>
+    </section>
+  );
+}
+
 function Contact() {
   return (
     <section id="contact" className="py-24 border-t border-ink-900">
@@ -726,6 +877,7 @@ export default function App() {
         <Skills />
         <Certifications />
         <Projects />
+        <JobAgentSection />
         <Contact />
       </main>
       <Footer />
