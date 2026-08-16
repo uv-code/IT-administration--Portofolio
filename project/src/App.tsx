@@ -28,6 +28,8 @@ const NAV_LINKS = [
   { id: 'contact', label: 'Kontakt' },
 ];
 
+const JOB_BACKEND_URL = 'https://job-search-agent-backend.azurewebsites.net/api/updateJobs';
+
 const SKILLS = [
   { name: 'Microsoft Azure', level: 85 },
   { name: 'Windows Server & Active Directory', level: 80 },
@@ -643,6 +645,19 @@ function JobAgentSection() {
     setError('');
 
     try {
+      try {
+        const backendResponse = await fetch(JOB_BACKEND_URL, { cache: 'no-store' });
+
+        if (!backendResponse.ok) {
+          console.warn('Backend refresh failed:', backendResponse.status, backendResponse.statusText);
+        } else {
+          const backendData = (await backendResponse.json()) as StatusData;
+          setStatus((prev) => ({ ...prev, ...backendData }));
+        }
+      } catch (backendError) {
+        console.warn('Backend refresh unavailable, continuing with local JSON:', backendError);
+      }
+
       const [jobsResponse, statusResponse] = await Promise.all([
         fetch('/jobs.json', { cache: 'no-store' }),
         fetch('/status.json', { cache: 'no-store' }),
@@ -656,7 +671,7 @@ function JobAgentSection() {
       const statusData = statusResponse.ok ? ((await statusResponse.json()) as StatusData) : {};
 
       setJobs(Array.isArray(jobsData) ? jobsData : []);
-      setStatus(statusData);
+      setStatus((prev) => ({ ...prev, ...statusData }));
     } catch (err) {
       console.error('JobAgent data error:', err);
       setError('Keine aktuellen Job-Daten verfügbar. Der Agent läuft noch nicht oder die JSON-Datei ist leer.');
