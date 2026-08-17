@@ -28,7 +28,7 @@ const NAV_LINKS = [
   { id: 'contact', label: 'Kontakt' },
 ];
 
-const JOB_BACKEND_URL = 'https://job-search-agent-backend.azurewebsites.net/api/updateJobs';
+const JOB_BACKEND_URL = 'https://job-search-agent-backend-eu-a6hxb0fna2fxcfg8.westeurope-01.azurewebsites.net/api/updateJobs';
 
 const SKILLS = [
   { name: 'Microsoft Azure', level: 85 },
