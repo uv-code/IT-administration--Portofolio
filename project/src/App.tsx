@@ -702,7 +702,16 @@ function JobAgentSection() {
       ? 'Neue Jobs gefunden'
       : status.status === 'no_new_jobs'
         ? 'Keine neuen Jobs'
-        : 'Wartet auf Daten';
+        : status.status === 'fallback_cache'
+          ? 'Fallback aktiv'
+          : 'Wartet auf Daten';
+
+  const statusTone =
+    status.status === 'new_jobs_found'
+      ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-200'
+      : status.status === 'no_new_jobs'
+        ? 'border-amber-500/30 bg-amber-500/10 text-amber-200'
+        : 'border-ink-700 bg-ink-800/60 text-ink-200';
 
   return (
     <section id="jobagent" className="py-24 border-t border-ink-900">
@@ -716,8 +725,10 @@ function JobAgentSection() {
         <div className="mb-8 flex flex-col gap-4 rounded-2xl border border-ink-800 bg-ink-900/60 p-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <p className="text-xs uppercase tracking-[0.2em] text-accent-400">Status</p>
-            <p className="mt-2 text-lg font-semibold text-white">{statusLabel}</p>
-            <p className="mt-1 text-sm text-ink-400">
+            <div className={`mt-2 inline-flex items-center rounded-full border px-3 py-1 text-sm font-medium ${statusTone}`}>
+              {statusLabel}
+            </div>
+            <p className="mt-2 text-sm text-ink-400">
               {status.lastRun ? `Letzte Ausführung: ${new Date(status.lastRun).toLocaleString('de-DE')}` : 'Noch keine Ausführung gemeldet.'}
             </p>
           </div>
@@ -755,15 +766,16 @@ function JobAgentSection() {
             {error}
           </div>
         ) : jobs.length === 0 ? (
-          <div className="rounded-2xl border border-ink-800 bg-ink-900/50 p-8 text-center text-ink-300">
-            Es wurden noch keine passenden Stellen gefunden.
+          <div className="rounded-2xl border border-dashed border-ink-700 bg-ink-900/50 p-8 text-center">
+            <p className="text-lg font-semibold text-white">Keine passenden Stellen gefunden.</p>
+            <p className="mt-2 text-sm text-ink-400">Der Agent läuft derzeit leer oder die Suche hat noch keine Treffer für dieses Profil geliefert.</p>
           </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
             {jobs.map((job, index) => (
               <article
                 key={`${job.id ?? job.url ?? index}`}
-                className="rounded-2xl border border-ink-800 bg-gradient-to-b from-ink-900/60 to-ink-950 p-5 transition-all hover:border-accent-500/40"
+                className="group rounded-2xl border border-ink-800 bg-gradient-to-b from-ink-900/60 to-ink-950 p-5 transition-all duration-200 hover:-translate-y-0.5 hover:border-accent-500/40 hover:shadow-lg hover:shadow-accent-500/5"
               >
                 <div className="mb-3 flex items-center justify-between gap-3">
                   <span className="rounded-full border border-accent-500/30 bg-accent-500/10 px-2 py-1 text-[10px] font-medium uppercase tracking-[0.2em] text-accent-300">
@@ -775,15 +787,18 @@ function JobAgentSection() {
                 <h3 className="text-lg font-semibold text-white leading-snug">{job.title ?? 'Unbekannte Stelle'}</h3>
                 <p className="mt-3 text-sm text-ink-300">{job.company_name ?? 'Unternehmen unbekannt'}</p>
 
-                <a
-                  href={job.url ?? '#'}
-                  target="_blank"
-                  rel="noreferrer"
-                  className="mt-5 inline-flex items-center gap-2 text-sm font-semibold text-accent-300 transition-colors hover:text-accent-200"
-                >
-                  Job ansehen
-                  <ArrowUpRight size={14} />
-                </a>
+                <div className="mt-5 flex items-center justify-between gap-3 border-t border-ink-800 pt-4">
+                  <span className="text-[10px] uppercase tracking-[0.2em] text-ink-500">Live</span>
+                  <a
+                    href={job.url ?? '#'}
+                    target="_blank"
+                    rel="noreferrer"
+                    className="inline-flex items-center gap-2 text-sm font-semibold text-accent-300 transition-colors hover:text-accent-200"
+                  >
+                    Job ansehen
+                    <ArrowUpRight size={14} />
+                  </a>
+                </div>
               </article>
             ))}
           </div>
