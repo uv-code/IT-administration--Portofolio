@@ -28,7 +28,7 @@ const NAV_LINKS = [
   { id: 'contact', label: 'Kontakt' },
 ];
 
-const JOB_BACKEND_URL = 'https://job-search-agent-backend-eu-a6hxb0fna2fxcfg8.westeurope-01.azurewebsites.net/api/updateJobs';
+const COPILOT_AGENT_URL = '/copilot-agent/updateJobs';
 
 const SKILLS = [
   { name: 'Microsoft Azure', level: 85 },
@@ -640,50 +640,61 @@ function JobAgentSection() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
-  const loadJobData = async () => {
+  const loadLocalJobData = async () => {
+    const [jobsResponse, statusResponse] = await Promise.all([
+      fetch('/jobs.json', { cache: 'no-store' }),
+      fetch('/status.json', { cache: 'no-store' }),
+    ]);
+
+    const jobsData = jobsResponse.ok ? ((await jobsResponse.json()) as JobItem[]) : [];
+    const statusData = statusResponse.ok ? ((await statusResponse.json()) as StatusData) : {};
+
+    setJobs(Array.isArray(jobsData) ? jobsData : []);
+    setStatus((prev) => ({ ...prev, ...statusData }));
+  };
+
+  const updateJobs = async () => {
     setLoading(true);
     setError('');
 
     try {
-      try {
-        const backendResponse = await fetch(JOB_BACKEND_URL, { cache: 'no-store' });
+      const response = await fetch(COPILOT_AGENT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ action: 'fetchLatestJobs' }),
+        cache: 'no-store',
+      });
 
-        if (!backendResponse.ok) {
-          console.warn('Backend refresh failed:', backendResponse.status, backendResponse.statusText);
-        } else {
-          const backendData = (await backendResponse.json()) as StatusData;
-          setStatus((prev) => ({ ...prev, ...backendData }));
-        }
-      } catch (backendError) {
-        console.warn('Backend refresh unavailable, continuing with local JSON:', backendError);
+      if (!response.ok) {
+        throw new Error(`Agent-Request fehlgeschlagen (${response.status})`);
       }
 
-      const [jobsResponse, statusResponse] = await Promise.all([
-        fetch('/jobs.json', { cache: 'no-store' }),
-        fetch('/status.json', { cache: 'no-store' }),
-      ]);
-
-      if (!jobsResponse.ok) {
-        throw new Error('jobs.json konnte nicht geladen werden.');
-      }
-
-      const jobsData = (await jobsResponse.json()) as JobItem[];
-      const statusData = statusResponse.ok ? ((await statusResponse.json()) as StatusData) : {};
-
-      setJobs(Array.isArray(jobsData) ? jobsData : []);
-      setStatus((prev) => ({ ...prev, ...statusData }));
+      const data = (await response.json()) as { jobs?: JobItem[]; status?: StatusData };
+      setJobs(Array.isArray(data.jobs) ? data.jobs : []);
+      setStatus((prev) => ({ ...prev, ...(data.status ?? {}) }));
     } catch (err) {
-      console.error('JobAgent data error:', err);
-      setError('Keine aktuellen Job-Daten verfügbar. Der Agent läuft noch nicht oder die JSON-Datei ist leer.');
-      setJobs([]);
-      setStatus({});
+      console.warn('Agent unavailable, using local JSON fallback:', err);
+      try {
+        await loadLocalJobData();
+      } catch (fallbackErr) {
+        console.error('JobAgent fallback failed:', fallbackErr);
+        setError('Keine aktuellen Job-Daten verfügbar. Der Agent läuft noch nicht oder die JSON-Datei ist leer.');
+        setJobs([]);
+        setStatus({});
+      }
     } finally {
       setLoading(false);
     }
   };
 
   useEffect(() => {
-    void loadJobData();
+    void updateJobs();
+
+    const interval = window.setInterval(() => {
+      void updateJobs();
+    }, 300000);
+
+    return () => window.clearInterval(interval);
   }, []);
 
   const statusLabel =
@@ -713,10 +724,10 @@ function JobAgentSection() {
 
           <button
             type="button"
-            onClick={() => void loadJobData()}
+            onClick={() => void updateJobs()}
             className="rounded-xl bg-accent-500 px-4 py-2.5 text-sm font-semibold text-white transition-all hover:bg-accent-400"
           >
-            Ergebnisse aktualisieren
+            Jobs aktualisieren
           </button>
         </div>
 
