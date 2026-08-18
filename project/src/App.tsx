@@ -28,7 +28,7 @@ const NAV_LINKS = [
   { id: 'contact', label: 'Kontakt' },
 ];
 
-const COPILOT_AGENT_URL = '/copilot-agent/updateJobs';
+const COPILOT_AGENT_URL = import.meta.env.VITE_AGENT_API_URL || '/copilot-agent/updateJobs';
 
 const SKILLS = [
   { name: 'Microsoft Azure', level: 85 },
