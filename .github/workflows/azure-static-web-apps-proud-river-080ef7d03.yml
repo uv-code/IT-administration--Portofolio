@@ -17,6 +17,8 @@ jobs:
     permissions:
        id-token: write
        contents: read
+    env:
+      VITE_AGENT_API_URL: https://jobagent-api-bvdjgvh7c8htgvcn.westeurope-01.azurewebsites.net/updateJobs
     steps:
       - uses: actions/checkout@v3
         with:
