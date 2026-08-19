@@ -19,6 +19,7 @@ jobs:
        contents: read
     env:
       VITE_AGENT_API_URL: https://jobagent-api-bvdjgvh7c8htgvcn.westeurope-01.azurewebsites.net/updateJobs
+      VITE_AGENT_VISIT_URL: https://jobagent-api-bvdjgvh7c8htgvcn.westeurope-01.azurewebsites.net/visit
     steps:
       - uses: actions/checkout@v3
         with:
