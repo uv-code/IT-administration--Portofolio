@@ -341,18 +341,22 @@ function VisitorInfo() {
   if (!VISIT_API_URL) return null;
 
   return (
-    <section className="py-6">
+    <section className="py-2">
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="rounded-2xl border border-accent-500/20 bg-accent-500/5 p-5 text-ink-100">
-          <p className="text-xs uppercase tracking-[0.2em] text-accent-300">Besucher-Info</p>
-          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+        <div className="inline-flex w-full items-center justify-between gap-3 rounded-2xl border border-accent-500/20 bg-gradient-to-r from-accent-500/8 to-accent-600/8 px-4 py-3 text-ink-100 shadow-lg shadow-accent-500/5 backdrop-blur-sm">
+          <div className="flex items-center gap-2.5">
+            <span className="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(52,211,153,0.9)]" />
+            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent-300">Besucher-Info</span>
+          </div>
+
+          <div className="flex flex-wrap items-center justify-end gap-4 text-sm">
             <div>
-              <p className="text-sm text-ink-400">Deine IP</p>
-              <p className="text-lg font-semibold text-white">{visitorIp || 'Wird geladen...'}</p>
+              <span className="text-ink-400">IP:</span>{' '}
+              <span className="font-medium text-white">{visitorIp || 'Wird geladen...'}</span>
             </div>
             <div>
-              <p className="text-sm text-ink-400">Seite besucht</p>
-              <p className="text-lg font-semibold text-white">{totalVisits} mal</p>
+              <span className="text-ink-400">Besuche:</span>{' '}
+              <span className="font-medium text-white">{totalVisits} mal</span>
             </div>
           </div>
         </div>
