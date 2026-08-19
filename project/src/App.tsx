@@ -637,7 +637,7 @@ function JobAgentSection() {
 
   const [jobs, setJobs] = useState<JobItem[]>([]);
   const [status, setStatus] = useState<StatusData>({});
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
   const loadLocalJobData = async () => {
@@ -686,16 +686,6 @@ function JobAgentSection() {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    void updateJobs();
-
-    const interval = window.setInterval(() => {
-      void updateJobs();
-    }, 300000);
-
-    return () => window.clearInterval(interval);
-  }, []);
 
   const statusLabel =
     status.status === 'new_jobs_found'
