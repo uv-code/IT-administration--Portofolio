@@ -324,7 +324,10 @@ function VisitorInfo() {
 
     const fetchVisitInfo = async () => {
       try {
-        const response = await fetch(VISIT_API_URL, { cache: 'no-store' });
+        const response = await fetch(VISIT_API_URL, {
+          cache: 'no-store',
+          credentials: 'include',
+        });
         if (!response.ok) return;
 
         const data = (await response.json()) as { visitorIp?: string; totalVisits?: number };
