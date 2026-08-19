@@ -343,7 +343,7 @@ function VisitorInfo() {
   return (
     <section className="py-2">
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="flex w-full items-center justify-between gap-3 rounded-full border border-emerald-500/25 bg-gradient-to-r from-emerald-500/10 via-accent-500/10 to-cyan-500/10 px-4 py-2.5 text-xs text-ink-200 shadow-[0_0_30px_rgba(16,185,129,0.08)] backdrop-blur-sm">
+        <div className="flex w-full flex-col gap-2 rounded-full border border-emerald-500/25 bg-gradient-to-r from-emerald-500/10 via-accent-500/10 to-cyan-500/10 px-4 py-2.5 text-xs text-ink-200 shadow-[0_0_30px_rgba(16,185,129,0.08)] backdrop-blur-sm sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-center gap-2.5">
             <span className="relative flex h-2.5 w-2.5">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
@@ -352,13 +352,16 @@ function VisitorInfo() {
             <span className="font-semibold uppercase tracking-[0.22em] text-emerald-300">Live</span>
           </div>
 
-          <div className="flex flex-wrap items-center justify-end gap-4 text-[11px] sm:text-xs">
-            <div>
-              <span className="text-ink-400">IP</span>{' '}
+          <div className="flex items-center gap-3 sm:gap-5">
+            <div className="flex items-center gap-2 rounded-full border border-white/5 bg-black/10 px-2.5 py-1.5">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-ink-400">IP</span>
               <span className="font-medium text-white">{visitorIp || 'wird geladen...'}</span>
             </div>
-            <div>
-              <span className="text-ink-400">Besuche</span>{' '}
+
+            <div className="h-4 w-px bg-white/10" aria-hidden="true" />
+
+            <div className="flex items-center gap-2 rounded-full border border-white/5 bg-black/10 px-2.5 py-1.5">
+              <span className="text-[10px] uppercase tracking-[0.2em] text-ink-400">Besuche</span>
               <span className="font-medium text-white">{totalVisits}x</span>
             </div>
           </div>
