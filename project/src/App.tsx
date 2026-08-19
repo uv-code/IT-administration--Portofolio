@@ -343,20 +343,23 @@ function VisitorInfo() {
   return (
     <section className="py-2">
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="inline-flex w-full items-center justify-between gap-3 rounded-2xl border border-accent-500/20 bg-gradient-to-r from-accent-500/8 to-accent-600/8 px-4 py-3 text-ink-100 shadow-lg shadow-accent-500/5 backdrop-blur-sm">
+        <div className="flex w-full items-center justify-between gap-3 rounded-full border border-emerald-500/25 bg-gradient-to-r from-emerald-500/10 via-accent-500/10 to-cyan-500/10 px-4 py-2.5 text-xs text-ink-200 shadow-[0_0_30px_rgba(16,185,129,0.08)] backdrop-blur-sm">
           <div className="flex items-center gap-2.5">
-            <span className="inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400 shadow-[0_0_14px_rgba(52,211,153,0.9)]" />
-            <span className="text-[11px] font-semibold uppercase tracking-[0.2em] text-accent-300">Besucher-Info</span>
+            <span className="relative flex h-2.5 w-2.5">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex h-2.5 w-2.5 rounded-full bg-emerald-400" />
+            </span>
+            <span className="font-semibold uppercase tracking-[0.22em] text-emerald-300">Live</span>
           </div>
 
-          <div className="flex flex-wrap items-center justify-end gap-4 text-sm">
+          <div className="flex flex-wrap items-center justify-end gap-4 text-[11px] sm:text-xs">
             <div>
-              <span className="text-ink-400">IP:</span>{' '}
-              <span className="font-medium text-white">{visitorIp || 'Wird geladen...'}</span>
+              <span className="text-ink-400">IP</span>{' '}
+              <span className="font-medium text-white">{visitorIp || 'wird geladen...'}</span>
             </div>
             <div>
-              <span className="text-ink-400">Besuche:</span>{' '}
-              <span className="font-medium text-white">{totalVisits} mal</span>
+              <span className="text-ink-400">Besuche</span>{' '}
+              <span className="font-medium text-white">{totalVisits}x</span>
             </div>
           </div>
         </div>
