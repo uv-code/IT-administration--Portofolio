@@ -326,7 +326,6 @@ function VisitorInfo() {
       try {
         const response = await fetch(VISIT_API_URL, {
           cache: 'no-store',
-          credentials: 'include',
         });
         if (!response.ok) return;
 
