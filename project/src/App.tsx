@@ -343,7 +343,7 @@ function VisitorInfo() {
   return (
     <section className="py-1.5">
       <div className="mx-auto max-w-6xl px-5 sm:px-6">
-        <div className="flex w-full items-center justify-center gap-2 rounded-full border border-emerald-500/20 bg-gradient-to-r from-emerald-500/8 via-accent-500/8 to-cyan-500/8 px-2.5 py-1.5 text-[10px] text-ink-200 shadow-[0_0_20px_rgba(16,185,129,0.06)] backdrop-blur-sm sm:justify-between">
+        <div className="flex w-full items-center justify-center gap-1.5 rounded-full border border-accent-500/25 bg-gradient-to-r from-emerald-500/8 via-accent-500/8 to-cyan-500/8 px-2.5 py-1.5 text-[10px] text-ink-200 shadow-[0_0_20px_rgba(59,130,246,0.08)] backdrop-blur-sm sm:justify-between">
           <div className="flex items-center gap-1.5">
             <span className="relative flex h-2 w-2">
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-75" />
@@ -352,15 +352,15 @@ function VisitorInfo() {
             <span className="font-semibold uppercase tracking-[0.18em] text-emerald-300">Live</span>
           </div>
 
-          <div className="flex items-center gap-2 sm:gap-3">
-            <div className="flex items-center gap-1.5 rounded-full border border-white/5 bg-black/10 px-1.5 py-1">
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <div className="flex items-center gap-1 rounded-full border border-white/5 bg-black/10 px-1.5 py-1">
               <span className="uppercase tracking-[0.16em] text-ink-400">IP</span>
               <span className="font-medium text-white">{visitorIp || '...'}</span>
             </div>
 
-            <div className="h-3 w-px bg-white/10" aria-hidden="true" />
+            <div className="h-3 w-px bg-accent-400/80" aria-hidden="true" />
 
-            <div className="flex items-center gap-1.5 rounded-full border border-white/5 bg-black/10 px-1.5 py-1">
+            <div className="flex items-center gap-1 rounded-full border border-white/5 bg-black/10 px-1.5 py-1">
               <span className="uppercase tracking-[0.16em] text-ink-400">Besuche</span>
               <span className="font-medium text-white">{totalVisits}x</span>
             </div>
