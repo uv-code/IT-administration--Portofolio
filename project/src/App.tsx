@@ -330,9 +330,16 @@ function VisitorInfo() {
         });
         if (!response.ok) return;
 
-        const data = (await response.json()) as { visitorIp?: string; totalVisits?: number };
+        const data = (await response.json()) as {
+          visitorIp?: string;
+          totalVisits?: number;
+          totalUniqueVisitors?: number;
+        };
+
+        const nextTotalVisits = data.totalUniqueVisitors ?? data.totalVisits ?? 0;
+
         setVisitorIp(data.visitorIp || 'unbekannt');
-        setTotalVisits(data.totalVisits ?? 0);
+        setTotalVisits(nextTotalVisits);
       } catch (visitError) {
         console.warn('Visit endpoint unavailable:', visitError);
       }
