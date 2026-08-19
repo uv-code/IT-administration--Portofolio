@@ -315,6 +315,52 @@ function Hero() {
   );
 }
 
+function VisitorInfo() {
+  const [visitorIp, setVisitorIp] = useState('');
+  const [totalVisits, setTotalVisits] = useState(0);
+
+  useEffect(() => {
+    if (!VISIT_API_URL) return;
+
+    const fetchVisitInfo = async () => {
+      try {
+        const response = await fetch(VISIT_API_URL, { cache: 'no-store' });
+        if (!response.ok) return;
+
+        const data = (await response.json()) as { visitorIp?: string; totalVisits?: number };
+        setVisitorIp(data.visitorIp || 'unbekannt');
+        setTotalVisits(data.totalVisits ?? 0);
+      } catch (visitError) {
+        console.warn('Visit endpoint unavailable:', visitError);
+      }
+    };
+
+    void fetchVisitInfo();
+  }, []);
+
+  if (!VISIT_API_URL) return null;
+
+  return (
+    <section className="py-6">
+      <div className="mx-auto max-w-6xl px-5 sm:px-6">
+        <div className="rounded-2xl border border-accent-500/20 bg-accent-500/5 p-5 text-ink-100">
+          <p className="text-xs uppercase tracking-[0.2em] text-accent-300">Besucher-Info</p>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            <div>
+              <p className="text-sm text-ink-400">Deine IP</p>
+              <p className="text-lg font-semibold text-white">{visitorIp || 'Wird geladen...'}</p>
+            </div>
+            <div>
+              <p className="text-sm text-ink-400">Seite besucht</p>
+              <p className="text-lg font-semibold text-white">{totalVisits} mal</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function SectionHeading({
   eyebrow,
   title,
@@ -640,8 +686,6 @@ function JobAgentSection() {
   const [status, setStatus] = useState<StatusData>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [visitorIp, setVisitorIp] = useState('');
-  const [totalVisits, setTotalVisits] = useState(0);
 
   const loadLocalJobData = async () => {
     const [jobsResponse, statusResponse] = await Promise.all([
@@ -689,25 +733,6 @@ function JobAgentSection() {
       setLoading(false);
     }
   };
-
-  useEffect(() => {
-    if (!VISIT_API_URL) return;
-
-    const fetchVisitInfo = async () => {
-      try {
-        const response = await fetch(VISIT_API_URL, { cache: 'no-store' });
-        if (!response.ok) return;
-
-        const data = (await response.json()) as { visitorIp?: string; totalVisits?: number };
-        setVisitorIp(data.visitorIp || 'unbekannt');
-        setTotalVisits(data.totalVisits ?? 0);
-      } catch (visitError) {
-        console.warn('Visit endpoint unavailable:', visitError);
-      }
-    };
-
-    void fetchVisitInfo();
-  }, []);
 
   const statusLabel =
     status.status === 'new_jobs_found'
@@ -768,22 +793,6 @@ function JobAgentSection() {
             <p className="mt-3 text-lg font-bold text-white">Adzuna API</p>
           </div>
         </div>
-
-        {VISIT_API_URL && (
-          <div className="mb-6 rounded-2xl border border-accent-500/20 bg-accent-500/5 p-5 text-ink-100">
-            <p className="text-xs uppercase tracking-[0.2em] text-accent-300">Besucher-Info</p>
-            <div className="mt-3 grid gap-3 sm:grid-cols-2">
-              <div>
-                <p className="text-sm text-ink-400">Deine IP</p>
-                <p className="text-lg font-semibold text-white">{visitorIp || 'Wird geladen...'}</p>
-              </div>
-              <div>
-                <p className="text-sm text-ink-400">Seite besucht</p>
-                <p className="text-lg font-semibold text-white">{totalVisits} mal</p>
-              </div>
-            </div>
-          </div>
-        )}
 
         {loading ? (
           <div className="rounded-2xl border border-ink-800 bg-ink-900/50 p-8 text-center text-ink-300">
@@ -943,6 +952,7 @@ export default function App() {
       <Navbar />
       <main>
         <Hero />
+        <VisitorInfo />
         <Skills />
         <Certifications />
         <Projects />
